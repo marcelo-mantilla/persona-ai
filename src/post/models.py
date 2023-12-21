@@ -10,7 +10,7 @@ class Post(models.Model):
     image_url = models.CharField(max_length=200)
     image_description = models.CharField(max_length=1000)
     caption = models.CharField(max_length=1000)
-    action = models.CharField(max_length=1000)
+    action = models.CharField(max_length=1000, default=None)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

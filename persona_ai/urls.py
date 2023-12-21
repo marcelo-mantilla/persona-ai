@@ -20,5 +20,4 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', include('src.user.urls')),
-    path('avatar/<int:avatar_id>/posts', include('src.post.views.create_post')),
 ]
