@@ -20,16 +20,16 @@ class Avatar(models.Model):
 class PersonaTemplate(models.Model):
     avatar = models.OneToOneField(Avatar, on_delete=models.CASCADE, related_name='persona_template', primary_key=True)
 
-    personality = models.CharField(max_length=1000, null=True)
-    audience = models.CharField(max_length=1000, null=True)
-    vision = models.CharField(max_length=1000, null=True)
-    purpose = models.CharField(max_length=1000, null=True)
-    values = models.CharField(max_length=1000, null=True)
-    additional_info = models.CharField(max_length=1000, null=True)
-    career = models.CharField(max_length=1000, null=True)
-    hobbies = models.CharField(max_length=1000, null=True)
-    tone = models.CharField(max_length=1000, null=True)
-    summary = models.CharField(max_length=1000, null=True)
+    personality = models.CharField(max_length=1000, null=True, blank=True)
+    audience = models.CharField(max_length=1000, null=True, blank=True)
+    vision = models.CharField(max_length=1000, null=True, blank=True)
+    purpose = models.CharField(max_length=1000, null=True, blank=True)
+    values = models.CharField(max_length=1000, null=True, blank=True)
+    additional_info = models.CharField(max_length=1000, null=True, blank=True)
+    career = models.CharField(max_length=1000, null=True, blank=True)
+    hobbies = models.CharField(max_length=1000, null=True, blank=True)
+    tone = models.CharField(max_length=1000, null=True, blank=True)
+    summary = models.CharField(max_length=1000, null=True, blank=True)
     # location
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -63,8 +63,8 @@ class PersonaTemplate(models.Model):
 class CaptionTemplate(models.Model):
     avatar = models.OneToOneField(Avatar, on_delete=models.CASCADE, related_name='caption_template', primary_key=True)
 
-    caption_theme = models.CharField(max_length=1000)
-    example_captions = models.CharField(max_length=1000)
+    caption_theme = models.CharField(max_length=1000, blank=True)
+    example_captions = models.CharField(max_length=1000, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -88,7 +88,7 @@ class CaptionTemplate(models.Model):
 
 class ImageTemplate(models.Model):
     avatar = models.OneToOneField(Avatar, on_delete=models.CASCADE, related_name='image_template', primary_key=True)
-    visual_style = models.CharField(max_length=1000)
+    visual_style = models.CharField(max_length=1000, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
