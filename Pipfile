@@ -9,6 +9,7 @@ psycopg = "==3.1.15"
 langchain = "0.0.350"
 openai = "1.6.0"
 python-dotenv = "*"
+tweepy = "*"
 
 [dev-packages]
 

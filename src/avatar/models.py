@@ -64,6 +64,7 @@ class CaptionTemplate(models.Model):
     avatar = models.OneToOneField(Avatar, on_delete=models.CASCADE, related_name='caption_template', primary_key=True)
 
     caption_theme = models.CharField(max_length=1000, blank=True)
+    caption_length = models.IntegerField(blank=True, null=True, default=None)
     example_captions = models.CharField(max_length=1000, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -24,10 +24,11 @@ class ImageService(Service):
         client = OpenAI()
         response = client.chat.completions.create(
             model="gpt-4-1106-preview",
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens= 400
         )
-        print("gpt4 response:", response)
-        generated_prompt = response['choices'][0]['message']['content']
+        generated_prompt = response.choices[0].message.content
         formatted_prompt = self.format_dalle3_prompt(generated_prompt)
 
         response = client.images.generate(
@@ -37,11 +38,11 @@ class ImageService(Service):
             quality="standard",
             n=1  # TODO: parameterize
         )
+        print('IMAEG _RESPONSE:', response)
         image_url = response.data[0].url
-        print("dalle3 response", response)
-        print("image url:", image_url)
+        revised_prompt = response.data[0].revised_prompt
 
-        return image_url
+        return image_url, revised_prompt
 
     @staticmethod
     def _image_prompt_template() -> PromptTemplate:
@@ -57,7 +58,7 @@ class ImageService(Service):
             The caption that {avatar_name} has decided to go with is: {caption} \n\n
             The visual aesthetic of {avatar_name} is as follows: {visual_aesthetic}
             
-            Generate a PROMPT that encapsulates {self.avatar.name} executing the specified action to be posted on
+            Generate a PROMPT that encapsulates {avatar_name} executing the specified action to be posted on
             social media. Please include the ENTIRE VISUAL AESTHETIC in your prompt to ensure image consistency across
             various social media posts. Find ways to creatively leverage the visual aesthetic in your prompt to imbue
             the image with creativity and emotion.

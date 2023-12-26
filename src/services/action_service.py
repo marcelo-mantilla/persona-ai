@@ -1,10 +1,12 @@
 from langchain.agents import AgentExecutor, AgentType, initialize_agent
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
+from openai import OpenAI
 
 from src.services.date_service import DateService
 from src.services.service import Service
 from src.avatar.models import Avatar
+from src.utils.token_conversions import convert_char_count_to_tokens
 
 # based on date, location, avatar persona
 
@@ -17,42 +19,35 @@ class ActionService(Service):
         prompt_template = self._action_prompt_template()
         prompt = prompt_template.format(
             avatar_name=self.avatar.name,
-            persona_template=self.avatar.persona_template,
+            persona_template=self.avatar.persona_template.as_prompt(),
             date_and_time=self.date_as_prompt,
         )
-        llm = OpenAI(model="gpt-3.5-turbo", temperature=1.8, max_tokens=250)
-        agent_executor = initialize_agent(
-            [],
-            llm,
-            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-            verbose=True
+        caption_token_length = convert_char_count_to_tokens(self.avatar.caption_template.caption_length)
+        client = OpenAI()
+        response = client.chat.completions.create(
+            model="gpt-4-1106-preview",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=caption_token_length,
+            temperature=0.8,
         )
-        result = agent_executor.invoke({"input": prompt})
-
-        print("result: ", result)
-
-        return result["output"]
+        return response.choices[0].message.content
 
     def brainstorm_caption(self, action: str) -> str:
         prompt_template = self._caption_prompt_template()
         prompt = prompt_template.format(
             avatar_name=self.avatar.name,
             action=action,
-            persona_template=self.avatar.persona_template,
-            caption_template=self.avatar.caption_template,
+            persona_template=self.avatar.persona_template.as_prompt(),
+            caption_template=self.avatar.caption_template.as_prompt(),
         )
-        llm = OpenAI(model="gpt-3.5-turbo", temperature=1.8, max_tokens=250)
-        agent_executor = initialize_agent(
-            [],
-            llm,
-            agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-            verbose=True
+        client = OpenAI()
+        response = client.chat.completions.create(
+            model="gpt-4-1106-preview",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=500,
+            temperature=0.8,
         )
-        result = agent_executor.invoke({"input": prompt})
-
-        print("result: ", result)
-
-        return result["output"]
+        return response.choices[0].message.content
 
     @staticmethod
     def _action_prompt_template() -> PromptTemplate:
