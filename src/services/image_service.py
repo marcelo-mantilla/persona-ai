@@ -1,4 +1,5 @@
 from openai import OpenAI
+import tweepy
 from langchain.prompts import PromptTemplate
 
 from src.services.service import Service
