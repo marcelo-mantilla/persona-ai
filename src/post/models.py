@@ -8,7 +8,7 @@ class Post(models.Model):
     avatar = models.ForeignKey(Avatar, on_delete=models.CASCADE, related_name='post')
 
     caption = models.TextField(max_length=2500, null=False)
-    action = models.TextField(max_length=2500, default=None)
+    action = models.TextField(max_length=2500, default=None, null=True)
     description = models.TextField(max_length=2500, default=None, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,11 +27,12 @@ class Media(models.Model):
     image_url = models.CharField(max_length=2000)
     image_description = models.TextField(max_length=2500)
 
+    twitter_media_id = models.CharField(max_length=250, default=None, null=False)
     twitter_media_key = models.CharField(max_length=250)
     twitter_height = models.IntegerField()
     twitter_width = models.IntegerField()
-    twitter_url = models.CharField(max_length=1000)
-    twitter_preview_url = models.CharField(max_length=1000)
+    twitter_url = models.CharField(max_length=1000, null=True)
+    twitter_preview_url = models.CharField(max_length=1000, null=True)
 
     class Meta:
         db_table = 'post_media'

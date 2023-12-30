@@ -25,23 +25,21 @@ def create_post(request):
         avatar=avatar,
         action=action,
         caption=caption,
-        image_url=image_url,
         description=image_desc,
     )
     post.save()
 
     twitter = Twitter()
-    media_data = twitter.create_media(post)
+    media_data = twitter.create_media(image_url)
 
     media = Media(
         post=post,
         image_url=image_url,
         image_description=image_desc,
+        twitter_media_id=media_data.media_id_string,
         twitter_media_key=media_data.media_key,
-        twitter_height=media_data.height,
-        twitter_width=media_data.width,
-        twitter_url=media_data.url,
-        twitter_preview_url=media_data.preview_image_url,
+        twitter_height=media_data.image['h'],
+        twitter_width=media_data.image['w'],
     )
     media.save()
 
@@ -57,6 +55,8 @@ def create_hot_take(request):
 
         action_service = ActionService(avatar)
         status = action_service.brainstorm_status()
+
+        print('status:', status)
 
         post = Post(
             avatar=avatar,

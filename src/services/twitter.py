@@ -33,13 +33,15 @@ class Twitter:
         media_data = self.v1_client.simple_upload(
             filename='generated-dalle3-image',
             file=image_data,
-            media_category='twitter_image'
+            media_category='tweet_image'
         )
 
         return media_data
 
     def create_post_with_media(self, post: Post):
-        media_ids = post.media.all().values_list('twitter_media_key', flat=True)
+        media_ids = post.media.all().values_list('twitter_media_id', flat=True)
+
+        print('media_ids', media_ids)
 
         self.v2_client.create_tweet(
             media_ids=media_ids,

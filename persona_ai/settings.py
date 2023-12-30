@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-4&*z007p0_5+l@ydr#j+m_8ai-n)!0_snsv43i2iy!vpy4$e1_
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'ubiuisehuwu5.share.zrok.io',
+    os.getenv('ZROK_HOST'),
     '127.0.0.1',
     'localhost',
 ]
