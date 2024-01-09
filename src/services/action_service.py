@@ -24,11 +24,10 @@ class ActionService(Service):
             persona_template=self.avatar.persona_template.as_prompt(),
             date_and_time=self.date_as_prompt,
         )
-        caption_token_length = convert_char_count_to_tokens(self.avatar.caption_template.caption_length)
         response = self.client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=caption_token_length,
+            max_tokens=400,
             temperature=0.8,
         )
         return response.choices[0].message.content
@@ -44,7 +43,7 @@ class ActionService(Service):
         response = self.client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=500,
+            max_tokens=TWITTER_TOKEN_LENGTH,
             temperature=0.8,
         )
         return response.choices[0].message.content
@@ -128,8 +127,9 @@ class ActionService(Service):
             {persona_template}\n\n
             {caption_template}\n\n
             Using the provided information, generate an fun and engaging caption of '{avatar_name}' performing the
-            following activity: '{action}'. This caption should be engaging, and will be posted on various social media
-            channels.
+            following activity: '{action}'. This caption should be engaging and concise. It will be posted to Twitter,
+            and should not exceed the 280 character limit expected of a tweet. ONLY RETURN THE CAPTION - DO NOT 
+            RETURN ANYTHING ELSE.
             """
         )
 

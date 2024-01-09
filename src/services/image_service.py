@@ -39,7 +39,6 @@ class ImageService(Service):
             quality="standard",
             n=1  # TODO: parameterize
         )
-        print('IMAEG _RESPONSE:', response)
         image_url = response.data[0].url
         revised_prompt = response.data[0].revised_prompt
 

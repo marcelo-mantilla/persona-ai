@@ -11,6 +11,7 @@ openai = "1.6.0"
 python-dotenv = "*"
 tweepy = "*"
 requests = "*"
+tiktoken = "*"
 
 [dev-packages]
 
