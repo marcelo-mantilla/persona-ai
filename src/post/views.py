@@ -53,6 +53,7 @@ def create_post(request):
         print("Internal Server Error:", e)
 
 
+@csrf_exempt
 def create_hottake(request):
     try:
         avatar_id = "1"

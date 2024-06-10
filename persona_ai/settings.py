@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'src.user.apps.UserConfig',
     'src.avatar.apps.AvatarConfig',
     'src.post.apps.PostsConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -91,6 +92,15 @@ DATABASES = {
         'HOST': os.getenv('DATABASE_HOST', 'localhost'),
         'PORT': os.getenv('DATABASE_PORT', 5432),
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 
