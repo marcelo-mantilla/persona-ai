@@ -4,15 +4,9 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 
 from src.post.models import *
-from src.post.serializer import HotTakeSerializer
 from src.services.action_service import ActionService
 from src.services.image_service import ImageService
 from src.services.twitter import Twitter
-
-@api_view(['POST'])
-def create_hot_take(request):
-    serializer = HotTakeSerializer(data=request.data)
-    pass
 
 @csrf_exempt
 def create_post(request):
