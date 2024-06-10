@@ -24,7 +24,7 @@ class ImageService(Service):
 
         client = OpenAI()
         response = client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens= 400
@@ -35,7 +35,7 @@ class ImageService(Service):
         response = client.images.generate(
             model="dall-e-3",
             prompt=formatted_prompt,
-            size="1024x1792",
+            size="1024x1024",
             quality="standard",
             n=1  # TODO: parameterize
         )

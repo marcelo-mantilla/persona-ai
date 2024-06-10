@@ -22,33 +22,47 @@ class Twitter:
         pass
 
     def create_media(self, image_url):
-        image_data = None
-        response = requests.get(image_url)
+        try:
+            image_data = None
+            response = requests.get(image_url)
 
-        if response.status_code == 200:
-            image_data = response.content
-        else:
-            Exception(f"Could not retrieve image via URL: {image_url}")
+            if response.status_code == 200:
+                image_data = response.content
+            else:
+                Exception(f"Could not retrieve image via URL: {image_url}")
 
-        media_data = self.v1_client.simple_upload(
-            filename='generated-dalle3-image',
-            file=image_data,
-            media_category='tweet_image'
-        )
+            print('uploading media image...')
+            media_data = self.v1_client.simple_upload(
+                filename='generated-dalle3-image',
+                file=image_data,
+                media_category='tweet_image'
+            )
+        except Exception as e:
+            print(f"Error creating media: {e}")
+            raise e
 
         return media_data
 
     def create_post_with_media(self, post: Post):
-        media_ids = post.media.all().values_list('twitter_media_id', flat=True)
+        try:
+            media_ids = post.media.all().values_list('twitter_media_id', flat=True)
 
-        print('media_ids', media_ids)
+            print('media_ids', media_ids)
 
-        self.v2_client.create_tweet(
-            media_ids=media_ids,
-            text=post.caption,
-        )
+            self.v2_client.create_tweet(
+                media_ids=media_ids,
+                text=post.caption,
+            )
+        except Exception as e:
+            print(f"Error creating post with media: {e}")
+            raise e
 
     def create_status_post(self, post: Post):
-        self.v2_client.create_tweet(
-            text=post.caption,
-        )
+        try:
+            self.v2_client.create_tweet(
+                text=post.caption,
+            )
+        except Exception as e:
+            print(f"Error creating status post: {e}")
+            raise e
+

@@ -25,7 +25,7 @@ class ActionService(Service):
             date_and_time=self.date_as_prompt,
         )
         response = self.client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=400,
             temperature=0.8,
@@ -41,7 +41,7 @@ class ActionService(Service):
             caption_template=self.avatar.caption_template.as_prompt(),
         )
         response = self.client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=TWITTER_TOKEN_LENGTH,
             temperature=0.8,
@@ -56,7 +56,7 @@ class ActionService(Service):
             date_and_time=self.date_as_prompt,
         )
         response = self.client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=TWITTER_TOKEN_LENGTH,
             temperature=0.8
@@ -75,7 +75,7 @@ class ActionService(Service):
             caption=content,
         )
         response = self.client.chat.completions.create(
-            model="gpt-4-1106-preview",
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=TWITTER_TOKEN_LENGTH,
             temperature=0.8
@@ -86,7 +86,7 @@ class ActionService(Service):
 
         while len(new_status) > 280:
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo-16k-0613",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=TWITTER_TOKEN_LENGTH,
                 temperature=0.8
