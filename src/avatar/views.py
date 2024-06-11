@@ -14,14 +14,11 @@ from src.services.orchestrator import Orchestrator
 def create_hot_take(request, avatar_id):
     serializer = HotTakeSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-
     instruction: str = serializer.data.get('instruction', None)
-    news_url: str = serializer.data.get('news_article_url', None)
 
     avatar = get_object_or_404(Avatar, id=avatar_id)
-
     orchestrator = Orchestrator(avatar=avatar)
-    hot_take: str = orchestrator.hot_take(instruction, news_url)
+    hot_take: str = orchestrator.hot_take(instruction)
 
     print("Hot take output: ", hot_take)
 
@@ -29,26 +26,6 @@ def create_hot_take(request, avatar_id):
         status=status.HTTP_200_OK,
         data={
             "hot_take": hot_take,
-        }
-    )
-
-    post = Post(
-        avatar=avatar,
-        caption=hot_take,
-    )
-    post.save()
-
-
-
-    action_service = ActionService(avatar)
-    generated_status: str = action_service.brainstorm_status()
-
-    print("Status:", generated_status)
-
-    return Response(
-        status=status.HTTP_200_OK,
-        data={
-            "status": generated_status,
         }
     )
 
