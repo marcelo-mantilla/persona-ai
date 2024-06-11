@@ -1,8 +1,6 @@
 from src.avatar.models import Avatar
-from pydantic import BaseModel
 from openai import OpenAI
 import instructor
-import requests
 
 from src.instructor.models import Instruction, NewsData, Status
 from src.services.date_service import DateService
@@ -44,13 +42,11 @@ class Orchestrator:
         if not instruction.is_valid():
             raise ValueError("Invalid instruction request.")
 
-        news_summary_data: NewsData = self.news_service.summarize_news(
+        news_summary_data = self.news_service.summarize_news(
             individuals=instruction.mentioned_individuals,
             countries=instruction.relevant_countries,
             keywords=instruction.keywords,
         )
-
-        print("News summary data: ", news_summary_data.json())
 
         messages = [
             {"role": "user", "content": self.avatar.persona_template.as_prompt()},
@@ -70,3 +66,6 @@ class Orchestrator:
         print("Hot take output: ", hot_take.status)
 
         return hot_take.status
+
+    def format_for_twitter(self, hot_take: str) -> str:
+        pass

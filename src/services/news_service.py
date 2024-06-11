@@ -42,8 +42,6 @@ class NewsService(Service):
                 description=news.get('description', ''),
             )
 
-        print("News as string: ", news_as_string)
-
         system_prompt = self.prompt_manager.news_description_summary_prompt()
         messages = [
             {"role": "system", "content": system_prompt},
